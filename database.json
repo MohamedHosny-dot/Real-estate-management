@@ -1,0 +1,121 @@
+﻿{
+  "_metadata": {
+    "system": "نظام إدارة العقارات والممتلكات",
+    "version": "1.0.0",
+    "created": "2026-09-26",
+    "last_updated": "2026-09-26",
+    "description": "قاعدة بيانات نظام إدارة العقارات - تحتوي على جميع بيانات العقارات والوحدات والمستأجرين والإيجارات والفواتير",
+    "schema_version": "1.0",
+    "author": "مدير النظام"
+  },
+  "properties": [
+    {
+      "id": 1,
+      "name": "عمارة الياسمين",
+      "address": "شارع النيل - القاهرة",
+      "type": "عمارة",
+      "notes": "عمارة سكنية ممتازة",
+      "created_at": "2026-01-01",
+      "updated_at": "2026-01-01"
+    },
+    {
+      "id": 2,
+      "name": "مول الهدى",
+      "address": "المهندسين",
+      "type": "عقار تجاري",
+      "notes": "",
+      "created_at": "2026-01-01",
+      "updated_at": "2026-01-01"
+    }
+  ],
+  "units": [
+    {"id": 1, "propertyId": 1, "number": "شقة 101", "floor": "1", "type": "شقة", "status": "مؤجرة", "area": null, "notes": "", "created_at": "2026-01-01", "updated_at": "2026-01-01"},
+    {"id": 2, "propertyId": 1, "number": "شقة 102", "floor": "1", "type": "شقة", "status": "فارغة", "area": null, "notes": "", "created_at": "2026-01-01", "updated_at": "2026-01-01"},
+    {"id": 3, "propertyId": 2, "number": "محل 1", "floor": "الأرضي", "type": "محل", "status": "مؤجرة", "area": null, "notes": "", "created_at": "2026-01-01", "updated_at": "2026-01-01"},
+    {"id": 4, "propertyId": 2, "number": "محل 2", "floor": "الأرضي", "type": "محل", "status": "تحت الصيانة", "area": null, "notes": "", "created_at": "2026-01-01", "updated_at": "2026-01-01"}
+  ],
+  "tenants": [
+    {"id": 1, "unitId": 1, "name": "أحمد محمود", "phone": "01012345678", "nationalId": "290123456789", "email": "", "startDate": "2026-01-01", "endDate": "2026-12-31", "rent": 3000, "dueDay": 5, "insurance": 3000, "notes": "", "created_at": "2026-01-01", "updated_at": "2026-01-01"},
+    {"id": 2, "unitId": 3, "name": "شركة الأمل للتجارة", "phone": "01198765432", "nationalId": "", "email": "", "startDate": "2025-06-01", "endDate": "2026-09-01", "rent": 10000, "dueDay": 1, "insurance": 20000, "notes": "", "created_at": "2025-06-01", "updated_at": "2025-06-01"}
+  ],
+  "rents": [
+    {"id": 1, "tenantId": 1, "month": "2026-01", "status": "مدفوع", "paidDate": "2026-01-05", "amount": 3000, "notes": "", "created_at": "2026-01-05", "updated_at": "2026-01-05"},
+    {"id": 2, "tenantId": 1, "month": "2026-02", "status": "مدفوع", "paidDate": "2026-02-04", "amount": 3000, "notes": "", "created_at": "2026-02-04", "updated_at": "2026-02-04"},
+    {"id": 3, "tenantId": 2, "month": "2026-06", "status": "مدفوع", "paidDate": "2026-06-02", "amount": 10000, "notes": "", "created_at": "2026-06-02", "updated_at": "2026-06-02"},
+    {"id": 4, "tenantId": 2, "month": "2026-07", "status": "غير مدفوع", "paidDate": null, "amount": 10000, "notes": "", "created_at": "2026-07-01", "updated_at": "2026-07-01"}
+  ],
+  "bills": [
+    {"id": 1, "unitId": 1, "tenantId": 1, "type": "كهرباء", "amount": 450, "dueDate": "2026-08-10", "status": "غير مدفوعة", "paidDate": null, "notes": "", "created_at": "2026-08-01", "updated_at": "2026-08-01"},
+    {"id": 2, "unitId": 3, "tenantId": 2, "type": "مياه", "amount": 200, "dueDate": "2026-07-20", "status": "غير مدفوعة", "paidDate": null, "notes": "", "created_at": "2026-07-01", "updated_at": "2026-07-01"}
+  ],
+  "_schema": {
+    "properties": {
+      "description": "جدول العقارات الرئيسية (عمائر، مجمعات، عقارات تجارية)",
+      "fields": {
+        "id": "رقم تعريفي فريد (integer)",
+        "name": "اسم العقار (string)",
+        "address": "عنوان العقار (string)",
+        "type": "نوع العقار: عمارة | عقار تجاري | فيلا | أرض (string)",
+        "notes": "ملاحظات (string)",
+        "created_at": "تاريخ الإنشاء (date YYYY-MM-DD)",
+        "updated_at": "تاريخ آخر تحديث (date YYYY-MM-DD)"
+      }
+    },
+    "units": {
+      "description": "جدول الوحدات داخل كل عقار (شقق، محلات، مكاتب)",
+      "fields": {
+        "id": "رقم تعريفي فريد (integer)",
+        "propertyId": "مفتاح خارجي للعقار (integer → properties.id)",
+        "number": "رقم/اسم الوحدة (string)",
+        "floor": "الطابق (string)",
+        "type": "نوع الوحدة: شقة | محل | مكتب | استوديو (string)",
+        "status": "الحالة: مؤجرة | فارغة | تحت الصيانة (string)",
+        "area": "المساحة بالمتر المربع (number | null)",
+        "notes": "ملاحظات (string)"
+      }
+    },
+    "tenants": {
+      "description": "جدول المستأجرين مع بيانات العقد",
+      "fields": {
+        "id": "رقم تعريفي فريد (integer)",
+        "unitId": "مفتاح خارجي للوحدة (integer → units.id)",
+        "name": "اسم المستأجر أو الشركة (string)",
+        "phone": "رقم الهاتف (string)",
+        "nationalId": "الرقم القومي (string)",
+        "email": "البريد الإلكتروني (string)",
+        "startDate": "تاريخ بداية العقد (date YYYY-MM-DD)",
+        "endDate": "تاريخ نهاية العقد (date YYYY-MM-DD)",
+        "rent": "قيمة الإيجار الشهري بالجنيه (number)",
+        "dueDay": "يوم استحقاق الإيجار من الشهر (integer 1-31)",
+        "insurance": "قيمة التأمين بالجنيه (number)",
+        "notes": "ملاحظات (string)"
+      }
+    },
+    "rents": {
+      "description": "جدول سجلات دفع الإيجار الشهري",
+      "fields": {
+        "id": "رقم تعريفي فريد (integer)",
+        "tenantId": "مفتاح خارجي للمستأجر (integer → tenants.id)",
+        "month": "الشهر بصيغة YYYY-MM (string)",
+        "status": "الحالة: مدفوع | غير مدفوع (string)",
+        "paidDate": "تاريخ الدفع الفعلي (date YYYY-MM-DD | null)",
+        "amount": "المبلغ المدفوع بالجنيه (number)",
+        "notes": "ملاحظات (string)"
+      }
+    },
+    "bills": {
+      "description": "جدول فواتير المرافق (كهرباء، مياه، غاز، إلخ)",
+      "fields": {
+        "id": "رقم تعريفي فريد (integer)",
+        "unitId": "مفتاح خارجي للوحدة (integer → units.id)",
+        "tenantId": "مفتاح خارجي للمستأجر (integer → tenants.id)",
+        "type": "نوع الفاتورة: كهرباء | مياه | غاز | صيانة | أخرى (string)",
+        "amount": "قيمة الفاتورة بالجنيه (number)",
+        "dueDate": "تاريخ الاستحقاق (date YYYY-MM-DD)",
+        "status": "الحالة: مدفوعة | غير مدفوعة (string)",
+        "paidDate": "تاريخ الدفع الفعلي (date YYYY-MM-DD | null)",
+        "notes": "ملاحظات (string)"
+      }
+    }
+  }
+}

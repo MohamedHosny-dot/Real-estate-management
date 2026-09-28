@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>نظام إدارة العقارات والممتلكات</title>
+    <!-- خطوط جوجل (Tajawal) -->
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
+    <!-- أيقونات FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- مكتبة الرسوم البيانية Chart.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+    <!-- مكتبة تصدير Excel -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+    <!-- ملف التصميم -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- القائمة الجانبية الموبايل (خلفية شفافة) -->
+    <div class="sidebar-overlay" id="sidebarOverlay" onclick="toggleSidebar()"></div>
+
+    <!-- القائمة الجانبية -->
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <i class="fa-solid fa-building"></i>
+            <h2>إدارة الأملاك</h2>
+            <button class="close-sidebar-btn" onclick="toggleSidebar()"><i class="fa-solid fa-times"></i></button>
+        </div>
+        <ul class="sidebar-menu">
+            <li class="active" onclick="navigateTo('dashboard', this)"><i class="fa-solid fa-chart-pie"></i> الرئيسية</li>
+            <li onclick="navigateTo('properties', this)"><i class="fa-solid fa-city"></i> العقارات</li>
+            <li onclick="navigateTo('units', this)"><i class="fa-solid fa-door-open"></i> الوحدات</li>
+            <li onclick="navigateTo('tenants', this)"><i class="fa-solid fa-users"></i> المستأجرون</li>
+            <li onclick="navigateTo('rents', this)"><i class="fa-solid fa-money-bill-wave"></i> الإيجارات</li>
+            <li onclick="navigateTo('bills', this)"><i class="fa-solid fa-file-invoice-dollar"></i> الفواتير</li>
+            <li onclick="navigateTo('reports', this)"><i class="fa-solid fa-chart-line"></i> التقارير والتحليلات</li>
+            <li onclick="navigateTo('stocks', this)"><i class="fa-solid fa-arrow-trend-up"></i> تحليل الأسهم</li>
+            <li onclick="navigateTo('alerts', this)"><i class="fa-solid fa-bell"></i> التنبيهات <span class="badge badge-red" id="sidebarAlertsCount">0</span></li>
+        </ul>
+        <div class="sidebar-footer">
+            <button class="sidebar-footer-btn" onclick="exportBackup()"><i class="fa-solid fa-download"></i> نسخ احتياطي</button>
+            <label class="sidebar-footer-btn" for="restoreInput"><i class="fa-solid fa-upload"></i> استعادة نسخة</label>
+            <input type="file" id="restoreInput" accept=".json" style="display:none" onchange="importBackup(event)">
+        </div>
+    </aside>
+
+    <!-- المحتوى الرئيسي -->
+    <main class="main-content">
+        <!-- الشريط العلوي -->
+        <header class="topbar">
+            <div class="topbar-right">
+                <button class="menu-toggle" onclick="toggleSidebar()"><i class="fa-solid fa-bars"></i></button>
+                <div class="search-bar">
+                    <i class="fa-solid fa-search"></i>
+                    <input type="text" id="globalSearch" placeholder="ابحث عن مستأجر، وحدة، رقم هاتف..." onkeyup="handleSearch()" onblur="setTimeout(hideSearchResults, 150)">
+                    <div class="search-results" id="searchResults"></div>
+                </div>
+            </div>
+            <div class="topbar-left">
+                <div class="notification-icon" onclick="navigateTo('alerts', document.querySelectorAll('.sidebar-menu li')[8])">
+                    <i class="fa-solid fa-bell"></i>
+                    <span class="notification-badge" id="topbarAlertsCount">0</span>
+                </div>
+                <div class="user-profile">
+                    <img src="https://ui-avatars.com/api/?name=المدير&background=1e3a8b&color=fff" alt="User">
+                    <span>مدير النظام</span>
+                </div>
+            </div>
+        </header>
+
+        <!-- حاوية عرض الصفحات الديناميكية -->
+        <div id="app-container" class="app-container">
+            <!-- سيتم حقن المحتوى هنا بواسطة JavaScript -->
+        </div>
+    </main>
+
+    <!-- Modal Form (شاشة منبثقة موحدة) -->
+    <div class="modal-overlay" id="mainModal" onclick="closeModal(event)">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="modalTitle">عنوان النافذة</h3>
+                <button class="close-modal" onclick="closeModal(null, true)"><i class="fa-solid fa-times"></i></button>
+            </div>
+            <div class="modal-body" id="modalBody">
+                <!-- سيتم حقن نموذج الإدخال هنا -->
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-outline" onclick="closeModal(null, true)">إلغاء</button>
+                <button class="btn btn-primary" id="modalSaveBtn">حفظ</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- رسائل التنبيه العائمة (Toasts) -->
+    <div id="toastContainer" class="toast-container"></div>
+
+    <!-- ملف السكريبت -->
+    <script src="script.js"></script>
+</body>
+</html>
